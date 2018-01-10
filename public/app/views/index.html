@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="MyApp">
 <head>
+    <base href='/'>
     <title>User content manager</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-route.min.js"></script>
+    <!-- Service -->
+    <script type="text/javascript" src="app/services/authService.js"></script>
+
+    <!-- Controllers -->
+    <script type="text/javascript" src="app/controllers/mainCtrl.js"></script>
+
+
+    <script type="text/javascript" src="app/app.routes.js"></script>
     <script type="text/javascript" src="app/app.js"></script>
 </head>
 <body>
-<h1>Node js app ketto</h1>
 
-{{ 3 + 3 }}
+<main class="container">
+    <div ng-view></div>
+</main>
+
+
 </body>
 </html>

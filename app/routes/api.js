@@ -13,7 +13,15 @@ function createToken(user) {
     name: user.name,
     username: user.username
   }, secretKey, {
-    expiresIn: 3400
+    expiresIn: 34000
+  });
+ return token;
+}
+function createPernamentlyToken() {
+  var token = jsonwebtoken.sign({
+    id: 'penramently',
+  }, secretKey, {
+    expiresIn: 34000
   });
  return token;
 }
@@ -84,8 +92,15 @@ module.exports = function (app, express) {
 
     console.log("Smb just came to our app!");
     var token = req.body.token || req.param('token') || req.headers['x-access-token'];
-
-    if( req.url != "/api/signup" && req.url != "/api/login" && req.url != "/") {
+    console.log("BODY");
+    console.log(req.body);
+    console.log("BODY-2");
+    console.log(req);
+    console.log("BODY-3");
+    //if( req.url != "/api/signup" && req.url != "/api/login" && req.url != "/") {
+        console.log("token");
+        console.log(token);
+        console.log("token");
       if(token){
         jsonwebtoken.verify(token, secretKey, function (err, decoded) {
           if(err){
@@ -96,15 +111,24 @@ module.exports = function (app, express) {
           }
         });
       } else {
-        res.status(403).send({success: false, message: "No Token Provided"});
-      }
-    } else {
-      next();
-    }
+        token = createPernamentlyToken();
+        jsonwebtoken.verify(token, secretKey, function (err, decoded) {
+          if(err){
+            res.status(403).send({success: false, message: "Failed to authanticate user"});
+          } else {
+            req.decoded = decoded;
+            next();
+          }
+        });
+        //res.status(403).send({success: false, message: "No Token Provided"});
+     }
+   //} else {
+   // next();
+  //}
   });
 
   // Destination B
-  api.route('/addcontent')
+  api.route('/')
      .post(function (req, res) {
        var story = new Story({
           creator: req.decoded.id,
@@ -120,7 +144,7 @@ module.exports = function (app, express) {
         })
       });
 
-  api.get('/mycontents', function (req,res) {
+  api.get('/', function (req,res) {
     Story.find( function (err, stories) {
       if(err) {
         res.send(err);
