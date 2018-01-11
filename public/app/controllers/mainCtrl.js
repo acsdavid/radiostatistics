@@ -21,6 +21,10 @@ angular.module('mainCtrl', [])
     Auth.login(vm.loginData.username, vm.loginData.password)
       .success(function (data) {
         vm.processing = false;
+        console.log("TESZZZZZ");
+        console.log(vm.loginData);
+        console.log(data);
+        console.log("TESZZZZZ");
         Auth.getUser()
           .then(function (data) {
             vm.user = data.data;

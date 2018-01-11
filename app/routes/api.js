@@ -95,12 +95,8 @@ module.exports = function (app, express) {
     console.log("BODY");
     console.log(req.body);
     console.log("BODY-2");
-    console.log(req);
-    console.log("BODY-3");
     //if( req.url != "/api/signup" && req.url != "/api/login" && req.url != "/") {
-        console.log("token");
-        console.log(token);
-        console.log("token");
+
       if(token){
         jsonwebtoken.verify(token, secretKey, function (err, decoded) {
           if(err){
@@ -111,7 +107,7 @@ module.exports = function (app, express) {
           }
         });
       } else {
-        token = createPernamentlyToken();
+        /*token = createPernamentlyToken();
         jsonwebtoken.verify(token, secretKey, function (err, decoded) {
           if(err){
             res.status(403).send({success: false, message: "Failed to authanticate user"});
@@ -119,8 +115,8 @@ module.exports = function (app, express) {
             req.decoded = decoded;
             next();
           }
-        });
-        //res.status(403).send({success: false, message: "No Token Provided"});
+        });*/
+        res.status(404).send({success: false, message: "No Token Provided"});
      }
    //} else {
    // next();
@@ -142,16 +138,15 @@ module.exports = function (app, express) {
           }
           res.json({message: "New Story created"});
         })
-      });
-
-  api.get('/', function (req,res) {
-    Story.find( function (err, stories) {
-      if(err) {
-        res.send(err);
-        return;
-      }
-      res.json(stories);
-    })
+      })
+    .get(function (req, res) {
+      Story.find( function (err, stories) {
+        if(err) {
+          res.send(err);
+          return;
+        }
+        res.json(stories);
+      })
   });
 
   api.get('/me', function (req,res) {
